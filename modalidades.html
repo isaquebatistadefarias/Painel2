@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cadastro de Modalidades</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="p-4">
+  <div class="container">
+    <div class="d-flex align-items-center justify-content-between mb-4">
+      <div class="d-flex align-items-center gap-3">
+        <img src="logo-secretaria-180.png" alt="Logo" height="60">
+        <h3 class="mb-0">Cadastro de Modalidades</h3>
+      </div>
+      <a href="admin.html" class="btn btn-secondary">Voltar</a>
+    </div>
+
+    <form id="form-salvar" class="row g-3 mb-4">
+
+      <div class="col-md-6">
+        <label for="nome" class="form-label">Nome</label>
+        <input type="text" class="form-control" id="nome" required />
+      </div>
+
+      <div class="col-12">
+        <button type="submit" class="btn btn-primary">Salvar</button>
+      </div>
+    </form>
+
+    <table class="table table-bordered" id="tabela-registros">
+      <thead class="table-light">
+        <tr>
+<th>Nome</th><th>Ações</th></tr></thead><tbody></tbody></table>
+  </div>
+
+  <script>
+    const supabase = supabase.createClient(
+      "https://wrayfqfxrxizltezkjrr.supabase.co",
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndyYXlmcWZ4cnhpemx0ZXpranJyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI3ODA2ODksImV4cCI6MjA2ODM1NjY4OX0.OP6XzwZ840PVj_0Oah0sSOfalWk5SH7xBDcQPVtaT8s"
+    );
+
+    let editandoId = null;
+
+    async function carregarRegistros() {
+      const { data, error } = await supabase.from("modalidades").select("*").order("id");
+      if (error) return alert("Erro ao carregar: " + error.message);
+      const tbody = document.querySelector("#tabela-registros tbody");
+      tbody.innerHTML = "";
+      data.forEach(registro => {
+        const tr = document.createElement("tr");
+        tr.innerHTML += `<td>${registro.nome}</td>`;
+        tr.innerHTML += `
+          <td>
+            <button class='btn btn-sm btn-warning' onclick='editar(${
+              registro.id
+            })'>Alterar</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    async function editar(id) {
+      const { data } = await supabase.from("modalidades").select("*").eq("id", id).single();
+      document.getElementById("nome").value = data.nome;
+      editandoId = id;
+    }
+
+    document.getElementById("form-salvar").addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const dados = {
+        nome: document.getElementById("nome").value.trim()
+      };
+      let resp;
+      if (editandoId) {
+        resp = await supabase.from("modalidades").update(dados).eq("id", editandoId);
+        editandoId = null;
+      } else {
+        resp = await supabase.from("modalidades").insert([dados]);
+      }
+      if (resp.error) {
+        alert("Erro: " + resp.error.message);
+      } else {
+        this.reset();
+        carregarRegistros();
+      }
+    });
+
+    carregarRegistros();
+  </script>
+</body>
+</html>

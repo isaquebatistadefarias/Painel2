@@ -1,0 +1,68 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Licitações em Andamento</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="custom-header text-dark p-3 d-flex flex-wrap justify-content-center align-items-center text-center">
+    <img src="logo-secretaria-180.png" alt="Logo Secretaria" height="180" class="mb-2">
+    <h1 class="h4 w-100">Secretaria de Administração — Mirassol d'Oeste</h1>
+    <div class="btn-group" role="group" aria-label="Acessibilidade">
+      <button id="btnAumentarFonte" class="btn btn-outline-secondary btn-sm">A+</button>
+      <button id="btnDiminuirFonte" class="btn btn-outline-secondary btn-sm">A-</button>
+      <button id="btnContraste" class="btn btn-outline-dark btn-sm">Alto Contraste</button>
+    </div>
+  </header>
+
+  <main class="container mt-4">
+    <div class="row" id="cardsResumo"></div>
+
+    <div class="row mb-3 mt-4">
+      <div class="col-md-4"><input type="text" id="busca" class="form-control" placeholder="Buscar por número ou objeto..."></div>
+      <div class="col-md-2"><select id="filtroModalidade" class="form-select"></select></div>
+      <div class="col-md-2"><select id="filtroSecretaria" class="form-select"></select></div>
+      <div class="col-md-2"><select id="filtroFase" class="form-select"></select></div>
+      <div class="col-md-2"><button class="btn btn-success w-100" onclick="exportarExcel()">Exportar Excel</button></div>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-striped table-hover">
+        <thead class="table-dark">
+          <tr>
+            <th>Número</th>
+            <th>Objeto</th>
+            <th>Modalidade</th>
+            <th>Secretaria</th>
+            <th>Pregoeiro</th>
+            <th>Equipe de Apoio</th>
+            <th>Fase Atual</th>
+            <th>Abertura</th>
+          </tr>
+        </thead>
+        <tbody id="tabelaLicitacoes"></tbody>
+      </table>
+    </div>
+  </main>
+
+  <footer class="bg-light text-center p-4 mt-4">
+    <p class="mb-1 fw-bold">Coordenadoria de Compras e Licitações</p>
+    <p class="mb-0">Secretaria de Administração — Prefeitura de Mirassol d’Oeste - MT</p>
+    <p class="mb-0">Rua Antônio Tavares, 3310, Centro, Mirassol d'Oeste/MT, CEP: 78.280-000</p>
+    <p class="mb-0">E-mail: licitacao@mirassoldoeste.mt.gov.br | Telefone: (65) 99953-0883</p>
+  </footer>
+
+  <a href="https://wa.me/5565999530883" target="_blank" class="btn-whatsapp d-flex align-items-center">
+    <img src="whatsapp-icon-final.png" alt="WhatsApp" width="40" height="40" class="me-2">
+    <span>Fale Conosco</span>
+  </a>
+
+  <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
