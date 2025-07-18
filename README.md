@@ -1,9 +1,4 @@
- (cd "$(git rev-parse --show-toplevel)" && git apply --3way <<'EOF' 
-diff --git a//dev/null b/README.md
-index 0000000000000000000000000000000000000000..3a236128c6350c76933d18f5bf2559cc56ce30b2 100644
---- a//dev/null
-+++ b/README.md
-@@ -0,0 +1,42 @@
+
 +# Painel de Licitações
 +
 +Este repositório contém um painel simples para publicação e gerenciamento de licitações da prefeitura de Mirassol d'Oeste. Todo o front‑end é estático e as informações são persistidas em um banco de dados [Supabase](https://supabase.com/).
