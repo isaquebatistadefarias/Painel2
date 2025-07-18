@@ -1,109 +1,92 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <title>Cadastro de Equipe de Apoio</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-</head>
-<body class="p-4">
-  <div class="container">
-    <div class="d-flex align-items-center justify-content-between mb-4">
-      <div class="d-flex align-items-center gap-3">
-        <img src="logo-secretaria-180.png" alt="Logo" height="60">
-        <h3 class="mb-0">Cadastro de Equipe de Apoio</h3>
-      </div>
-      <a href="admin.html" class="btn btn-secondary">Voltar</a>
-    </div>
-
-    <form id="form-salvar" class="row g-3 mb-4">
-
-      <div class="col-md-6">
-        <label for="nome" class="form-label">Nome</label>
-        <input type="text" class="form-control" id="nome" required />
-      </div>
-
-      <div class="col-md-6">
-        <label for="email" class="form-label">Email</label>
-        <input type="text" class="form-control" id="email" required />
-      </div>
-
-      <div class="col-md-6">
-        <label for="portaria" class="form-label">Portaria</label>
-        <input type="text" class="form-control" id="portaria" required />
-      </div>
-
-      <div class="col-md-6">
-        <label for="telefone" class="form-label">Telefone</label>
-        <input type="text" class="form-control" id="telefone" required />
-      </div>
-
-      <div class="col-12">
-        <button type="submit" class="btn btn-primary">Salvar</button>
-      </div>
-    </form>
-
-    <table class="table table-bordered" id="tabela-registros">
-      <thead class="table-light">
-        <tr>
-<th>Nome</th><th>Email</th><th>Portaria</th><th>Telefone</th><th>Ações</th></tr></thead><tbody></tbody></table>
-  </div>
-
-  <script>
-    const supabase = supabase.createClient(
-      "https://wrayfqfxrxizltezkjrr.supabase.co",
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndyYXlmcWZ4cnhpemx0ZXpranJyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI3ODA2ODksImV4cCI6MjA2ODM1NjY4OX0.OP6XzwZ840PVj_0Oah0sSOfalWk5SH7xBDcQPVtaT8s"
-    );
-
-    let editandoId = null;
-
-    async function carregarRegistros() {
-      const { data, error } = await supabase.from("equipes").select("*").order("id");
-      if (error) return alert("Erro ao carregar: " + error.message);
-      const tbody = document.querySelector("#tabela-registros tbody");
-      tbody.innerHTML = "";
-      data.forEach(registro => {
-        const tr = document.createElement("tr");
-        tr.innerHTML += `<td>${registro.nome}</td>`;tr.innerHTML += `<td>${registro.email}</td>`;tr.innerHTML += `<td>${registro.portaria}</td>`;tr.innerHTML += `<td>${registro.telefone}</td>`;
-        tr.innerHTML += `
-          <td>
-            <button class='btn btn-sm btn-warning' onclick='editar(${
-              registro.id
-            })'>Alterar</button>
-          </td>
-        `;
-        tbody.appendChild(tr);
-      });
-    }
-
-    async function editar(id) {
-      const { data } = await supabase.from("equipes").select("*").eq("id", id).single();
-      document.getElementById("nome").value = data.nome;document.getElementById("email").value = data.email;document.getElementById("portaria").value = data.portaria;document.getElementById("telefone").value = data.telefone;
-      editandoId = id;
-    }
-
-    document.getElementById("form-salvar").addEventListener("submit", async function (e) {
-      e.preventDefault();
-      const dados = {
-        nome: document.getElementById("nome").value.trim(),email: document.getElementById("email").value.trim(),portaria: document.getElementById("portaria").value.trim(),telefone: document.getElementById("telefone").value.trim()
-      };
-      let resp;
-      if (editandoId) {
-        resp = await supabase.from("equipes").update(dados).eq("id", editandoId);
-        editandoId = null;
-      } else {
-        resp = await supabase.from("equipes").insert([dados]);
-      }
-      if (resp.error) {
-        alert("Erro: " + resp.error.message);
-      } else {
-        this.reset();
-        carregarRegistros();
-      }
-    });
-
-    carregarRegistros();
-  </script>
-</body>
-</html>
+ (cd "$(git rev-parse --show-toplevel)" && git apply --3way <<'EOF' 
+diff --git a/equipes.html b/equipes.html
+index d36b2bcd1b8393ad8a204fc2962315e85cf5ae34..78449ccfb22f4919282ff960ec9ea065e20cb148 100644
+--- a/equipes.html
++++ b/equipes.html
+@@ -1,82 +1,79 @@
+ <!DOCTYPE html>
+ <html lang="pt-BR">
+ <head>
+   <meta charset="UTF-8" />
+   <title>Cadastro de Equipe de Apoio</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1" />
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
++  <script type="module" src="supabase.js"></script>
+ </head>
+ <body class="p-4">
+   <div class="container">
+     <div class="d-flex align-items-center justify-content-between mb-4">
+       <div class="d-flex align-items-center gap-3">
+         <img src="logo-secretaria-180.png" alt="Logo" height="60">
+         <h3 class="mb-0">Cadastro de Equipe de Apoio</h3>
+       </div>
+       <a href="admin.html" class="btn btn-secondary">Voltar</a>
+     </div>
+ 
+     <form id="form-salvar" class="row g-3 mb-4">
+ 
+       <div class="col-md-6">
+         <label for="nome" class="form-label">Nome</label>
+         <input type="text" class="form-control" id="nome" required />
+       </div>
+ 
+       <div class="col-md-6">
+         <label for="email" class="form-label">Email</label>
+         <input type="text" class="form-control" id="email" required />
+       </div>
+ 
+       <div class="col-md-6">
+         <label for="portaria" class="form-label">Portaria</label>
+         <input type="text" class="form-control" id="portaria" required />
+       </div>
+ 
+       <div class="col-md-6">
+         <label for="telefone" class="form-label">Telefone</label>
+         <input type="text" class="form-control" id="telefone" required />
+       </div>
+ 
+       <div class="col-12">
+         <button type="submit" class="btn btn-primary">Salvar</button>
+       </div>
+     </form>
+ 
+     <table class="table table-bordered" id="tabela-registros">
+       <thead class="table-light">
+         <tr>
+ <th>Nome</th><th>Email</th><th>Portaria</th><th>Telefone</th><th>Ações</th></tr></thead><tbody></tbody></table>
+   </div>
+ 
+   <script>
+-    const supabase = supabase.createClient(
+-      "https://wrayfqfxrxizltezkjrr.supabase.co",
+-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndyYXlmcWZ4cnhpemx0ZXpranJyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI3ODA2ODksImV4cCI6MjA2ODM1NjY4OX0.OP6XzwZ840PVj_0Oah0sSOfalWk5SH7xBDcQPVtaT8s"
+-    );
+ 
+     let editandoId = null;
+ 
+     async function carregarRegistros() {
+       const { data, error } = await supabase.from("equipes").select("*").order("id");
+       if (error) return alert("Erro ao carregar: " + error.message);
+       const tbody = document.querySelector("#tabela-registros tbody");
+       tbody.innerHTML = "";
+       data.forEach(registro => {
+         const tr = document.createElement("tr");
+         tr.innerHTML += `<td>${registro.nome}</td>`;tr.innerHTML += `<td>${registro.email}</td>`;tr.innerHTML += `<td>${registro.portaria}</td>`;tr.innerHTML += `<td>${registro.telefone}</td>`;
+         tr.innerHTML += `
+           <td>
+             <button class='btn btn-sm btn-warning' onclick='editar(${
+               registro.id
+             })'>Alterar</button>
+           </td>
+         `;
+         tbody.appendChild(tr);
+       });
+     }
+ 
+     async function editar(id) {
+       const { data } = await supabase.from("equipes").select("*").eq("id", id).single();
+       document.getElementById("nome").value = data.nome;document.getElementById("email").value = data.email;document.getElementById("portaria").value = data.portaria;document.getElementById("telefone").value = data.telefone;
+ 
+EOF
+)
