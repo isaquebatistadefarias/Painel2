@@ -1,17 +1,3 @@
- (cd "$(git rev-parse --show-toplevel)" && git apply --3way <<'EOF' 
-diff --git a/script.js b/script.js
-index d9e0177fb2ed86e20de334a8a18484cc1fb9888e..180e706fa3afdb847f22bcaea79548902bbff512 100644
---- a/script.js
-+++ b/script.js
-@@ -1,22 +1,94 @@
- 
- (cd "$(git rev-parse --show-toplevel)" && git apply --3way <<'EOF' 
-diff --git a/script.js b/script.js
-index d9e0177fb2ed86e20de334a8a18484cc1fb9888e..180e706fa3afdb847f22bcaea79548902bbff512 100644
---- a/script.js
-+++ b/script.js
-@@ -1,22 +1,94 @@
- 
  function exportarExcel() {
    const tabela = document.querySelector("table");
    if (!tabela) return alert("Tabela não encontrada!");
