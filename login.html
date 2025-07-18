@@ -1,53 +1,47 @@
 
- <!DOCTYPE html>
- <html lang="pt-BR">
- <head>
-   <meta charset="UTF-8" />
-   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-   <title>Login - Painel de Licitações</title>
-   <link rel="stylesheet" href="style.css">
-   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-+  <script type="module" src="supabase.js"></script>
- </head>
- <body>
-   <div class="container" style="max-width: 400px; margin: 100px auto; padding: 2rem; background: #fff; border-radius: 10px;">
-     <div style="text-align:center;">
-       <img src="logo-secretaria-180.png" alt="Logo" style="height: 100px; margin-bottom: 20px;">
-       <h2>Painel Administrativo</h2>
-     </div>
-     <form id="login-form">
-       <label for="email">E-mail</label>
-       <input type="email" id="email" required class="form-control" />
-       <label for="password">Senha</label>
-       <input type="password" id="password" required class="form-control" />
-       <button type="submit" class="btn" style="margin-top: 1rem;">Entrar</button>
-     </form>
-     <p id="login-error" style="color: red; display: none;">Erro ao fazer login. Verifique os dados.</p>
-   </div>
- 
--  <script>
--    const { createClient } = supabase;
--    const supabaseUrl = "https://wrayfqfxrxizltezkjrr.supabase.co";
--    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndyYXlmcWZ4cnhpemx0ZXpranJyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI3ODA2ODksImV4cCI6MjA2ODM1NjY4OX0.OP6XzwZ840PVj_0Oah0sSOfalWk5SH7xBDcQPVtaT8s";
--    const supabaseClient = createClient(supabaseUrl, supabaseKey);
-+    <script>
- 
-     document.getElementById("login-form").addEventListener("submit", async function (e) {
-       e.preventDefault();
-       const email = document.getElementById("email").value;
-       const password = document.getElementById("password").value;
--      const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
-+        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
- 
-       if (error) {
-         document.getElementById("login-error").style.display = "block";
-       } else {
-         window.location.href = "admin.html";
-       }
-     });
-   </script>
- </body>
- </html>
- 
-EOF
-)
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login - Painel de Licitações</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+  <div class="container" style="max-width: 400px; margin: 100px auto; padding: 2rem; background: #fff; border-radius: 10px;">
+    <div style="text-align:center;">
+      <img src="logo-secretaria-180.png" alt="Logo" style="height: 100px; margin-bottom: 20px;">
+      <h2>Painel Administrativo</h2>
+    </div>
+    <form id="login-form">
+      <label for="email">E-mail</label>
+      <input type="email" id="email" required class="form-control" />
+      <label for="password">Senha</label>
+      <input type="password" id="password" required class="form-control" />
+      <button type="submit" class="btn" style="margin-top: 1rem;">Entrar</button>
+    </form>
+    <p id="login-error" style="color: red; display: none;">Erro ao fazer login. Verifique os dados.</p>
+  </div>
+
+  <script>
+    const { createClient } = supabase;
+    const supabaseUrl = "https://wrayfqfxrxizltezkjrr.supabase.co";
+    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndyYXlmcWZ4cnhpemx0ZXpranJyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI3ODA2ODksImV4cCI6MjA2ODM1NjY4OX0.OP6XzwZ840PVj_0Oah0sSOfalWk5SH7xBDcQPVtaT8s";
+    const supabaseClient = createClient(supabaseUrl, supabaseKey);
+
+    document.getElementById("login-form").addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+
+      if (error) {
+        document.getElementById("login-error").style.display = "block";
+      } else {
+        window.location.href = "admin.html";
+      }
+    });
+  </script>
+</body>
+</html>
